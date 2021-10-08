@@ -1,25 +1,74 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+
+import PageNotFound from './pages/PageNotFound';
+import Authentication from './pages/Authentication';
+import Dashboard from './pages/Dashboard';
+import NewClient from './pages/NewClient';
+import UpdateClient from './pages/UpdateClient';
+
+import { getAuth } from 'firebase/auth';
+import { LogoutRounded, DashboardRounded } from '@mui/icons-material';
+import { Breadcrumbs, Divider, Container } from '@material-ui/core';
+import { IconButton } from '@mui/material';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+  const [user, setUser] = useState();
+  const [client, setClient] = useState();
+
+  useEffect(() => {
+    const subscriber = getAuth().onAuthStateChanged(setUser);
+    return subscriber;
+  }, []);
+
+  if (!user)
+    return (
+      <main>
+        <Authentication />
+      </main>
+    )
+  
+  return (  
+    <Router>
+      <header>
+        <Container>
+            <Route path="/">
+              <Breadcrumbs separator="" style={{ display: "flex", justifyContent: "center"}}>
+                <Link to="/">
+                  <IconButton>
+                    <DashboardRounded color="primary" fontSize="large" />
+                  </IconButton>
+                </Link>
+                <Link onClick={() => getAuth().signOut()} to="/">
+                  <IconButton>
+                    <LogoutRounded color="primary" fontSize="large" />
+                  </IconButton>
+                </Link>
+              </Breadcrumbs>
+            </Route>
+          <Divider />
+        </Container>
       </header>
-    </div>
-  );
+      <main>
+        <Container style={{ display: "flex", justifyContent: "center" }}>
+            <Switch>
+              <Route exact path="/">
+                <Dashboard setClient={setClient}/>
+              </Route>
+              <Route exact path="/NewClient">
+                <NewClient />
+              </Route>
+              <Route exact path="/UpdateClient">
+                <UpdateClient client={client}/>
+              </Route>
+              <Route>
+                <PageNotFound />
+              </Route>
+            </Switch>
+        </Container>
+      </main>
+    </Router>
+  )
 }
 
 export default App;
