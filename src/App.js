@@ -9,8 +9,8 @@ import UpdateClient from './pages/UpdateClient';
 
 import { getAuth } from 'firebase/auth';
 import { LogoutRounded, DashboardRounded } from '@mui/icons-material';
-import { Breadcrumbs, Divider, Container } from '@material-ui/core';
-import { IconButton } from '@mui/material';
+// import { Breadcrumbs, Divider, Container } from '@material-ui/core';
+import { Breadcrumbs, Divider, Container, IconButton, Typography } from '@mui/material';
 
 function App() {
   const [user, setUser] = useState();
@@ -34,6 +34,13 @@ function App() {
         <Container>
             <Route path="/">
               <Breadcrumbs separator="" style={{ display: "flex", justifyContent: "center"}}>
+                <Typography
+                    variant="p"
+                    color="primary"
+                    align="center"
+                  >
+                    Olá, {user.email}!
+                </Typography>
                 <Link to="/">
                   <IconButton>
                     <DashboardRounded color="primary" fontSize="large" />

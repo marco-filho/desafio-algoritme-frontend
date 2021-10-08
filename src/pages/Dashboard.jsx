@@ -112,21 +112,15 @@ function Dashboard({ setClient }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {clients.map((client) => <Row client={client} setClient={setClient} />)}
+              {
+                clients.length === 0 ? <TableCell colSpan="4" align="center">Nenhum registro encontrado.</TableCell> : 
+                clients.map((client) => <Row client={client} setClient={setClient} />)
+              }
             </TableBody>
           </Table>
       </TableContainer>
     </Stack>
   );
-}
-//delete
-const dummie = {
-  id: 1,
-  data_nascimento: new Date("2019", "06", "17").toDateString(),
-  nome: "dummie",
-  renda: "500",
-  status: true, 
-  telefone: 123456789,
 }
 
 export default Dashboard

@@ -21,10 +21,12 @@ function Client({ client }) {
           <TableRow>
             <TableCell component="th" style={_cell}>Renda</TableCell>
             <TableCell>
-              {"R$" + client.renda.replace(".", ",")}
+              {"R$" + _formatIncome(client.renda.replace(".", ","))}
             </TableCell>
             <TableCell component="th" style={_cell}>Telefone</TableCell>
-            <TableCell>{client.telefone}</TableCell>
+            <TableCell>
+              {_formatPhoneNumber(client.telefone)}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell component="th" style={_cell}>Data de nascimento</TableCell>
@@ -36,6 +38,20 @@ function Client({ client }) {
       </Table>
     </TableContainer>
   );
+}
+
+function _formatPhoneNumber(telefone) {
+  return "(" + telefone.slice(0, 2) + ") "
+    + telefone.slice(2, 7) + "-" + telefone.slice(7, 11);
+}
+
+function _formatIncome(renda) {
+  let charsRenda = renda.split("").reverse()
+  charsRenda.forEach((v, i) => {
+    if(i > 5 && i % 3 === 0)
+      charsRenda.splice(i, 0, ".")
+  })
+  return charsRenda.reverse().join("")
 }
 
 const _cell = {
