@@ -47,10 +47,11 @@ function _formatPhoneNumber(telefone) {
 
 function _formatIncome(renda) {
   let charsRenda = renda.split("").reverse()
-  charsRenda.forEach((v, i) => {
-    if(i > 5 && i % 3 === 0)
+  for(let i = 0; i < charsRenda.length; i += 3)
+    if(i > 5) {
       charsRenda.splice(i, 0, ".")
-  })
+      i++
+    }
   return charsRenda.reverse().join("")
 }
 

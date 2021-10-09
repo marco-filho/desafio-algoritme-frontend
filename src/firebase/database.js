@@ -63,7 +63,6 @@ const db = {
       .then((snapshot) => {
         const key = snapshot.exists() ? Object.keys(snapshot.val())[0] : -1
         const updateRef = ref(getDatabase(), `${_uid}/clients/${key}`)
-        console.log(updateRef)
         update(updateRef, updateObj).then(() => console.log(updateObj))
       })
   },
@@ -73,7 +72,7 @@ const db = {
       .then((snapshot) => {
         const key = snapshot.exists() ? Object.keys(snapshot.val())[0] : -1
         const deleteRef = ref(getDatabase(), `${_uid}/clients/${key}`)
-        remove(deleteRef)
+        remove(deleteRef).then(() => console.log("Deleted!"))
       })
   },
   refreshOn: (set) => {
