@@ -22,8 +22,9 @@ import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import Client from '../components/Client'
 import db from '../firebase/database'
+import Client from '../components/Client'
+import DeletePopper from '../components/DeletePopper';
 
 function Row({ client, setClient }) {
   const [open, setOpen] = useState(false);
@@ -43,9 +44,9 @@ function Row({ client, setClient }) {
             <KeyboardArrowDownIcon color="info" />
           }
         </IconButton>
-        <IconButton size="large" onClick={() => db.delete(client.id)}>
+        <DeletePopper deleteFunc={db.delete} clientId={client.id}>
           <DeleteRoundedIcon color="error" />
-        </IconButton>
+        </DeletePopper>
         <Link to="/UpdateClient" onClick={() => setClient(client)}>
           <IconButton size="large">
             <EditRoundedIcon color="success" />
